@@ -65,6 +65,8 @@
 #ifndef BLI_BLENLIB_H
 #define BLI_BLENLIB_H
 
+/* These error callbacks are needed to make the lib function properly. */
+
 /**
  * Set a function taking a char* as argument to flag errors. If the 
  * callback is not set, the error is discarded.
