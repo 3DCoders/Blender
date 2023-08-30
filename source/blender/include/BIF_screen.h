@@ -1,4 +1,8 @@
-/**
+/* replacement for screen.h */
+/*
+ * 
+ *	Leftovers here are actually editscreen.c thingies
+ * 
  * $Id$
  *
  * ***** BEGIN GPL/BL DUAL LICENSE BLOCK *****
@@ -28,29 +32,19 @@
  * Contributor(s): none yet.
  *
  * ***** END GPL/BL DUAL LICENSE BLOCK *****
- * (uit traces) maart 95
  */
 
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
+#ifndef BIF_SCREEN_H
+#define BIF_SCREEN_H
 
-#include "MEM_guardedalloc.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#include "BLI_blenlib.h"
+unsigned short qtest(void);
 
-#include "DNA_listBase.h"
-
-/* callbacks for errora and interrupts and some goo */
-static void (*BLI_localErrorCallBack)(char*) = NULL;
-static void (*BLI_localInterruptCallBack)(void*) = NULL;
-
-void BLI_setErrorCallBack(void (*f)(char*))
-{
-    BLI_localErrorCallBack = f;
+#ifdef __cplusplus
 }
+#endif
 
-void BLI_setInterruptCallBack(int (*f)(void))
-{
-    BLI_localInterruptCallBack = f;
-}
+#endif /* BIF_SCREEN_H */

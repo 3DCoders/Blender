@@ -1,4 +1,8 @@
-/* 
+/*
+ * blendertimer.c
+ * 
+ * A system-independent timer
+ * 
  * $Id$
  *
  * ***** BEGIN GPL/BL DUAL LICENSE BLOCK *****
@@ -30,64 +34,43 @@
  * ***** END GPL/BL DUAL LICENSE BLOCK *****
  */
 
-#include <stdlib.h>
-
-/* This little block needed for linking to Blender... */
-
-#include "MEM_guardedalloc.h"
-
-#include "DNA_ID.h"
+#include <unistd.h>
+#include <sys/times.h>
+#include <sys/time.h>           /* struct timeval */
+#include <sys/resource.h>       /* struct rusage */
 
 #include "BLI_blenlib.h"
+#include "BKE_global.h"
+#include "BIF_screen.h"         /* qtest(), extern_qread() */
 
-/* for passing informtion between ccreator and gameengine */
-#include "BKE_scene.h"
-
-#include "BIF_toolbox.h"
-
-#include "RE_renderconverter.h"
 #include "blendertimer.h"
 
-#include "render.h"
+#include "PIL_time.h"
 
-#include "SYS_system.h" 
-
-/* Temporary includes */
-#include "DNA_scene_types.h"
-/* Temporary includes */
-
-/* initialise the callbacks for the modules that need them */
-void setCallbacks(void);
-
-int main(int argc, char **argv)
+int MISC_test_break(void)
 {
-    int a, i, stax, stay, sizx, sizy;
-    SYS_SystemHandle syshandle;
-    Scene *sce;
+    if(!G.background)
+    {
+        static double ltime = 0;
+        double curtime = PIL_check_seconds_timer();
 
-    int audio = 0;
+        /* only check for breaks every 10 milliseconds
+         * if we get called more often */
+        if((curtime - ltime) > .001)
+        {
+            ltime = curtime;
 
-    setCallbacks();
+            /*while(qtest())
+            {
+                short val;
 
-    return 0;
-} /* end of int main(argc, argv) */
+                if(extern_qread(&val) == ESCKEY)
+                {
+                    G.afbreek = 1;
+                }
+            }*/
+        }
+    }
 
-static void error_cb(char *err)
-{
-    error("%s", err);
-}
-
-void setCallbacks(void)
-{
-    /* Error output from the alloc routines */
-    MEM_set_error_stream(stderr);
-
-    /* BLI_blenlib: */
-
-    BLI_setErrorCallBack(error_cb);
-    BLI_setInterruptCallBack(MISC_test_break);
-
-    /* render module: execution flow, timers cursors and display. */
-    //RE_set_getrenderdata_callback(RE_rotateBlenderScene);
-    //RE_set_freerenderdata_callback(RE_freeRotateBlenderScene);
+    return (G.afbreek == 1);
 }

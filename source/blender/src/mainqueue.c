@@ -28,29 +28,31 @@
  * Contributor(s): none yet.
  *
  * ***** END GPL/BL DUAL LICENSE BLOCK *****
- * (uit traces) maart 95
+ * 
+ * Just the functions to maintain a central event
+ * queue.
  */
 
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
+#include "BIF_mainqueue.h"
 
-#include "MEM_guardedalloc.h"
-
-#include "BLI_blenlib.h"
-
-#include "DNA_listBase.h"
-
-/* callbacks for errora and interrupts and some goo */
-static void (*BLI_localErrorCallBack)(char*) = NULL;
-static void (*BLI_localInterruptCallBack)(void*) = NULL;
-
-void BLI_setErrorCallBack(void (*f)(char*))
+typedef struct
 {
-    BLI_localErrorCallBack = f;
-}
+    unsigned short event;
+    short val;
+    char ascii;
+} QEvent;
 
-void BLI_setInterruptCallBack(int (*f)(void))
+static QEvent mainqueue[MAXQUEUE];
+static unsigned int nevents = 0;
+
+unsigned short mainqtest()
 {
-    BLI_localInterruptCallBack = f;
+    if(nevents)
+    {
+        return mainqueue[nevents - 1].event;
+    }
+    else
+    {
+        return 0;
+    }
 }

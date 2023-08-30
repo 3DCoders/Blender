@@ -28,29 +28,19 @@
  * Contributor(s): none yet.
  *
  * ***** END GPL/BL DUAL LICENSE BLOCK *****
- * (uit traces) maart 95
  */
 
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
+#include "PIL_time.h"
 
-#include "MEM_guardedalloc.h"
+#include <unistd.h>
+#include <sys/time.h>
 
-#include "BLI_blenlib.h"
-
-#include "DNA_listBase.h"
-
-/* callbacks for errora and interrupts and some goo */
-static void (*BLI_localErrorCallBack)(char*) = NULL;
-static void (*BLI_localInterruptCallBack)(void*) = NULL;
-
-void BLI_setErrorCallBack(void (*f)(char*))
+double PIL_check_seconds_timer(void)
 {
-    BLI_localErrorCallBack = f;
-}
+    struct timeval tv;
+    struct timezone tz;
 
-void BLI_setInterruptCallBack(int (*f)(void))
-{
-    BLI_localInterruptCallBack = f;
+    gettimeofday(&tv, &tz);
+
+    return ((double) tv.tv_sec + tv.tv_sec / 1000000.0);
 }

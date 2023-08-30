@@ -1,4 +1,7 @@
 /**
+ * @file PIL_time.h
+ * 
+ * Platform independant time functions.
  * $Id$
  *
  * ***** BEGIN GPL/BL DUAL LICENSE BLOCK *****
@@ -28,29 +31,27 @@
  * Contributor(s): none yet.
  *
  * ***** END GPL/BL DUAL LICENSE BLOCK *****
- * (uit traces) maart 95
  */
 
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
+#ifndef PIL_TIME_H
+#define PIL_TIME_H
 
-#include "MEM_guardedalloc.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#include "BLI_blenlib.h"
+extern
+    /** Return an indication of time, expressed as
+     * seconds since some fixed point. Successve calls
+     * are guarenteed to generate values greater than or
+     * equal to the last call.
+    */
+double PIL_check_seconds_timer(void);
 
-#include "DNA_listBase.h"
 
-/* callbacks for errora and interrupts and some goo */
-static void (*BLI_localErrorCallBack)(char*) = NULL;
-static void (*BLI_localInterruptCallBack)(void*) = NULL;
 
-void BLI_setErrorCallBack(void (*f)(char*))
-{
-    BLI_localErrorCallBack = f;
+#ifdef __cplusplus
 }
+#endif
 
-void BLI_setInterruptCallBack(int (*f)(void))
-{
-    BLI_localInterruptCallBack = f;
-}
+#endif /* PIL_TIME_H */

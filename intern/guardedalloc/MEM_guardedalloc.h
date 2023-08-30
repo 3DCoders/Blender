@@ -68,8 +68,51 @@
 extern "C" {
 #endif
 
+/** Returns the length of the allocated memory segment pointed at
+ * by vmemh, If the pointer was not previously allocated by this
+ * module, the result is undefined.
+*/
+int MEM_allocN_len(void *vmemh);
+
+/** Release memory previously allocated by this module.
+ * 
+*/
+short MEM_freeN(void *vmemh);
+
+/** 
+ * Duplicates a block of memory, and returns a pointer to the 
+ * newly allocated block.
+*/
+void *MEM_dupallocN(void *vmemh);
+
+/**
+ * Allocate a block of memory of size len, with tag name str. The
+ * memory is cleared. The name must be static, because only a
+ * pointer to it is stored!
+ */
+void *MEM_callocN(unsigned int len, char * str);
+
+/**
+ * Allocate a block of memory of size len, with tag name str. The
+ * name must be a static, because only a pointer to it is stored!
+ */
+void *MEM_mallocN(unsigned int len, char * str);
+
+/**
+ * Print a list of the names and sizes of all the allocated memory
+ * blocks.
+ */
+void MEM_printmemlist(void);
+
 /* Set the stream for error output */
 void MEM_set_error_stream(FILE*);
+
+/**
+ * Are the start/end block markers still correct?
+ * 
+ * @retval 0 for correct memory, 1 for corrupted memory. 
+ */
+int MEM_check_memory_integrity(void);
 
 #ifdef __cplusplus
 }

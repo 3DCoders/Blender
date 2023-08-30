@@ -1,4 +1,6 @@
-/**
+/*
+ * Central queue handling functions.
+ * 
  * $Id$
  *
  * ***** BEGIN GPL/BL DUAL LICENSE BLOCK *****
@@ -28,29 +30,13 @@
  * Contributor(s): none yet.
  *
  * ***** END GPL/BL DUAL LICENSE BLOCK *****
- * (uit traces) maart 95
  */
 
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
+#ifndef BIF_MAINQUEUE_H
+#define BIF_MAINQUEUE_H
 
-#include "MEM_guardedalloc.h"
+#define MAXQUEUE 256
 
-#include "BLI_blenlib.h"
+unsigned short mainqtest(void);
 
-#include "DNA_listBase.h"
-
-/* callbacks for errora and interrupts and some goo */
-static void (*BLI_localErrorCallBack)(char*) = NULL;
-static void (*BLI_localInterruptCallBack)(void*) = NULL;
-
-void BLI_setErrorCallBack(void (*f)(char*))
-{
-    BLI_localErrorCallBack = f;
-}
-
-void BLI_setInterruptCallBack(int (*f)(void))
-{
-    BLI_localInterruptCallBack = f;
-}
+#endif /* BIF_MAINQUEUE_H */

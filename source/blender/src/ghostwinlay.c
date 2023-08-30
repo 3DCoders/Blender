@@ -1,4 +1,4 @@
-/* 
+/**
  * $Id$
  *
  * ***** BEGIN GPL/BL DUAL LICENSE BLOCK *****
@@ -31,63 +31,23 @@
  */
 
 #include <stdlib.h>
-
-/* This little block needed for linking to Blender... */
+#include <stdio.h>
 
 #include "MEM_guardedalloc.h"
 
-#include "DNA_ID.h"
-
 #include "BLI_blenlib.h"
 
-/* for passing informtion between ccreator and gameengine */
-#include "BKE_scene.h"
+#include "GHOST_C-api.h"
 
-#include "BIF_toolbox.h"
+#include "BKE_global.h"
 
-#include "RE_renderconverter.h"
-#include "blendertimer.h"
+#include "winlay.h"
 
-#include "render.h"
+static GHOST_SystemHandle g_system = 0;
 
-#include "SYS_system.h" 
+/***/
 
-/* Temporary includes */
-#include "DNA_scene_types.h"
-/* Temporary includes */
-
-/* initialise the callbacks for the modules that need them */
-void setCallbacks(void);
-
-int main(int argc, char **argv)
+void winlay_process_events(int wait_for_event)
 {
-    int a, i, stax, stay, sizx, sizy;
-    SYS_SystemHandle syshandle;
-    Scene *sce;
-
-    int audio = 0;
-
-    setCallbacks();
-
-    return 0;
-} /* end of int main(argc, argv) */
-
-static void error_cb(char *err)
-{
-    error("%s", err);
-}
-
-void setCallbacks(void)
-{
-    /* Error output from the alloc routines */
-    MEM_set_error_stream(stderr);
-
-    /* BLI_blenlib: */
-
-    BLI_setErrorCallBack(error_cb);
-    BLI_setInterruptCallBack(MISC_test_break);
-
-    /* render module: execution flow, timers cursors and display. */
-    //RE_set_getrenderdata_callback(RE_rotateBlenderScene);
-    //RE_set_freerenderdata_callback(RE_freeRotateBlenderScene);
+    //(g_system, wait_for_event);
 }

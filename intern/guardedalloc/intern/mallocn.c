@@ -41,6 +41,52 @@
 #include "MEM_guardedalloc.h"
 
 /* ----------------------------------------------------------- */
+/* Data defition                                               */
+/* ------------------------------------------------------------*/
+/* all memory chunks are put in linked */
+typedef struct localLink
+{
+    struct localLink *next, *prev;
+} localLink;
+
+typedef struct localListbase
+{
+    void *first, *last;
+} localListBase;
+
+typedef struct MemHead
+{
+    int tag1;
+    int len;
+    struct MemHead *next, *prev;
+    char * name;
+    char * nextname;
+    /* int level; */ /* historical, can be removed, but check alignment issues */
+    int tag2;
+} MemHead;
+
+typedef struct MemTail
+{
+    int tag3, pad;
+} MemTail;
+
+/* ----------------------------------------------------------- */
+/* local functions                                             */
+/* ------------------------------------------------------------*/
+
+static void addtail(localListBase *listbase, void *vlink);
+static void remlink(localListBase *listbase, void *vlink);
+static void rem_memblock(MemHead *memh);
+static void MemorY_ErroR(char *block, char *erro);
+static char *check_memlist(MemHead *memh);
+
+/* ----------------------------------------------------------- */
+/* locally used defines                                        */
+/* ------------------------------------------------------------*/
+
+#define MAKE_ID(a,b,c,d) ( (int)(a)<<24 | (int)(b)<<16 | (c)<<8 | (d) )
+
+/* ----------------------------------------------------------- */
 /* vars                                                        */
 /* ------------------------------------------------------------*/
 

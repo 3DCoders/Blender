@@ -1,6 +1,5 @@
 /**
  * $Id$
- *
  * ***** BEGIN GPL/BL DUAL LICENSE BLOCK *****
  *
  * This program is free software; you can redistribute it and/or
@@ -28,29 +27,34 @@
  * Contributor(s): none yet.
  *
  * ***** END GPL/BL DUAL LICENSE BLOCK *****
- * (uit traces) maart 95
  */
 
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
+#ifndef GHOST_C_API_H
+#define GHOST_C_API_H
 
-#include "MEM_guardedalloc.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#include "BLI_blenlib.h"
+#define GHOST_DECLARE_HANDLE(name) typedef struct name##__ { int unused; } *name;
 
-#include "DNA_listBase.h"
+GHOST_DECLARE_HANDLE(GHOST_SystemHandle);
 
-/* callbacks for errora and interrupts and some goo */
-static void (*BLI_localErrorCallBack)(char*) = NULL;
-static void (*BLI_localInterruptCallBack)(void*) = NULL;
+/***************************************************************************
+ ** Event management functionality
+ **************************************************************************/
 
-void BLI_setErrorCallBack(void (*f)(char*))
-{
-    BLI_localErrorCallBack = f;
+/**
+ * Retrieves events from the system and stores them in the queue.
+ * @param systemhandle The handle to the system
+ * @param waitForEvent Boolean to indicate that ProcessEvents should
+ * wait (block) until the next event before returning.
+ * @return Indication of the presence of events.
+ */
+extern int GHOST_ProcessEvents(GHOST_SystemHandle systemhandle, int waitForEvent);
+
+#ifdef __cplusplus
 }
+#endif
 
-void BLI_setInterruptCallBack(int (*f)(void))
-{
-    BLI_localInterruptCallBack = f;
-}
+#endif /* GHOST_C_API_H */

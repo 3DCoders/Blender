@@ -28,29 +28,8 @@
  * Contributor(s): none yet.
  *
  * ***** END GPL/BL DUAL LICENSE BLOCK *****
- * (uit traces) maart 95
  */
+/* Abstract window operations */
 
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
-
-#include "MEM_guardedalloc.h"
-
-#include "BLI_blenlib.h"
-
-#include "DNA_listBase.h"
-
-/* callbacks for errora and interrupts and some goo */
-static void (*BLI_localErrorCallBack)(char*) = NULL;
-static void (*BLI_localInterruptCallBack)(void*) = NULL;
-
-void BLI_setErrorCallBack(void (*f)(char*))
-{
-    BLI_localErrorCallBack = f;
-}
-
-void BLI_setInterruptCallBack(int (*f)(void))
-{
-    BLI_localInterruptCallBack = f;
-}
+/* Global windowing operations */
+void winlay_process_events(int wait_for_event);
